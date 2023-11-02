@@ -2,51 +2,73 @@ import { BiSearchAlt2 } from 'react-icons/bi'
 import { useEffect, useState } from 'react'
 import './App.css';
 import Boxes from './Boxes';
+import { IconContext } from 'react-icons/lib';
 
 const MOVIE_API = "http://www.omdbapi.com/?apikey=545d99cc"
 
 function App() {
-  const [search, setSearch] = useState()
+  const [movies, setMovies] = useState([ ])
+  const [searchTerm, setSearchterm] = useState("")
 
-  const handleSearch = () => {
-    setSearch("Superman")
-  }
+  console.log(movies)
+  console.log(searchTerm)
 
-  const movie1 = {
+  // const movie1 = {
     
-      Title: "The Amazing Spiderman 2 Webb Cut",
-      Year: "2021",
-      imdbID: "tt18351128",
-      Type: "movie",
-      Poster: "https://m.media-amazon.com/images/M/MV5BYzYzZDViNWYtNWViMS00NDMxLThlN2YtZjFkOWMwODkzNzhiXkEyXkFqcGdeQXVyMTUwMzM4NzU0._V1_SX300.jpg"
-  }
+  //     Title: "The Amazing Spiderman 2 Webb Cut",
+  //     Year: "2021",
+  //     imdbID: "tt18351128",
+  //     Type: "movie",
+  //     Poster: "https://m.media-amazon.com/images/M/MV5BYzYzZDViNWYtNWViMS00NDMxLThlN2YtZjFkOWMwODkzNzhiXkEyXkFqcGdeQXVyMTUwMzM4NzU0._V1_SX300.jpg"
+  // }
 
-  const searchMovies = async(title) =>{
+  const searchMovies = async (title) =>{
     const response = await fetch(`${MOVIE_API}&s=${title}`)
     const data = await response.json()
-    console.log(data)
+    setMovies(data.Search)
+  
   }
+
+  console.log(movies)
+
   useEffect(() => {
-   searchMovies('Spiderman')
+   searchMovies(movies)
   }, [])
   
   return (
     <div className="App">  
 
-      <h1>Movie Lab</h1>
+      <h1>Movies</h1>
 
       <div className='search'>
         <input
+        type='text'
         placeholder = 'Search for Movies'
-        value = {search}
-        onChange = {handleSearch}
+        value = {searchTerm}
+        onChange = {(e) =>{setSearchterm(e.target.value)}}
         />
 
-        <BiSearchAlt2 onClick={() =>{}} alt="search"/>
+        <IconContext.Provider value={{size:"30px"}}>
+        <BiSearchAlt2 onClick={() =>{searchMovies(searchTerm)}} alt="search"/>
+        </IconContext.Provider>
       </div>
-    <div className='container'>
-      <Boxes movie1={movie1}/>
-    </div>
+
+      { movies?.length > 0 ?
+        (
+          <div className='container'>
+          {movies.map((movie) =>(
+            <Boxes movie={movie} />
+          ))}
+          </div>
+        )
+        :
+        (
+          <div className='empty'>
+            <p>Search for you preferred movie</p>
+          </div>
+        )
+      }
+    
 
     </div>
   );

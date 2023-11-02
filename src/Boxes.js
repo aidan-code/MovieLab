@@ -1,19 +1,19 @@
 import React from 'react'
 
-const Boxes = ({ movie1 }) => {
+const Boxes = ({ movie }) => {
 
   return (
     <div className='movies'>
 
-    <div className='date'> {movie1.Year}</div>
+    <div className='date'> {movie.Year}</div>
 
       <div className='poster'>
-        <img src={movie1.Poster !== 'N/A' ? movie1.Poster : 'https://via.placeholder.com/400' } alt ={movie1.Title}/>
+        <img src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/400' } alt ={movie.Title}/>
       </div>
 
       <div className='info'>
-        <p>{movie1.Type}</p>
-        <h3>{movie1.Title}</h3>
+        <p>{movie.Type}</p>
+        <h3>{movie.Title}</h3>
       </div>
     </div>
   )
