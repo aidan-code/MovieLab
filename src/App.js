@@ -10,8 +10,6 @@ function App() {
   const [movies, setMovies] = useState([ ])
   const [searchTerm, setSearchterm] = useState("")
 
-  console.log(movies)
-  console.log(searchTerm)
 
   // const movie1 = {
     
@@ -28,8 +26,6 @@ function App() {
     setMovies(data.Search)
   
   }
-
-  console.log(movies)
 
   useEffect(() => {
    searchMovies(movies)
